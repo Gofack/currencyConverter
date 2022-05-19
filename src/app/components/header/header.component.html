@@ -1,0 +1,15 @@
+<header class="header">
+	<div class="currency-holder">
+		<h4>Currency course:</h4>
+		<ul>
+			<ng-container *ngFor="let rate of rates | keyvalue">
+				<li *ngIf="rate.key === 'USD'">
+					<strong>USD:</strong> {{usdRate}} {{baseCurr}}
+				</li>
+				<li *ngIf="rate.key === 'EUR'">
+					<strong>EUR:</strong> {{eurRate}} {{baseCurr}}
+				</li>
+			</ng-container>
+		</ul>
+	</div>
+</header>

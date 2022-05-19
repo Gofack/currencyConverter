@@ -1,0 +1,41 @@
+<div class="converter">
+	<div class="container">
+		<h1>Currency converter</h1>
+		<form [formGroup]="convertForm">
+			<div class="form-group">
+				<div class="controls-group">
+					<mat-form-field class="converter-input" appearance="fill">
+						<mat-label>Amount</mat-label>
+						<input type="number" matInput formControlName="fromAmount" (input)="calculateExchangeRate()">
+					</mat-form-field>
+					<mat-form-field appearance="fill" class="converter-select">
+						<mat-label>Currency</mat-label>
+						<mat-select [(value)]="selectedFrom" (selectionChange)="calculateExchangeRate()" formControlName="fromSelect">
+							<mat-option *ngFor="let rate of rates | keyvalue" [value]="rate.key">
+								{{rate.key}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+			<!-- .form-group -->
+			<div class="form-group">
+				<div class="controls-group">
+					<mat-form-field class="converter-input" appearance="fill">
+						<mat-label>Amount</mat-label>
+						<input type="text" matInput formControlName="toAmount" (input)="onToAmountChange()">
+					</mat-form-field>
+					<mat-form-field appearance="fill" class="converter-select">
+						<mat-label>Currency</mat-label>
+						<mat-select [(value)]="selectedTo" (selectionChange)="calculateExchangeRate()" formControlName="toSelect">
+							<mat-option *ngFor="let rate of rates | keyvalue" [value]="rate.key">
+								{{rate.key}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+			<!-- .form-group -->
+		</form>
+	</div>
+</div>
