@@ -11,8 +11,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ConverterComponent implements OnInit {
 	rates: StringNumberPair = {};
 	selectedFrom: string = 'USD';
-	selectedTo: string = 'EUR';
-	inputValue: number = 10;
+	selectedTo: string = 'UAH';
+	inputValue: number = 100;
 	fromRate: number = 0;
 	toRate: number = 0;
 

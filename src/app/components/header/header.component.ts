@@ -21,10 +21,10 @@ export class HeaderComponent implements OnInit {
 			this.rates = data.rates;
 			for (const k in data.rates) {
 				if (k === 'USD') {
-					this.usdRate = ((100 / data.rates[k]) / 100).toFixed(2);
+					this.usdRate = ((1 / data.rates[k]) / 1).toFixed(2);
 				}
 				if (k === 'EUR') {
-					this.eurRate = ((100 / data.rates[k]) / 100).toFixed(2);
+					this.eurRate = ((1 / data.rates[k]) / 1).toFixed(2);
 				}
 			}
 		})
