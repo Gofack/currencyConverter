@@ -8,25 +8,24 @@ import { StringNumberPair } from '../../interfaces/currency';
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-	rates: StringNumberPair[] = [];
-	usdRate: string = '';
-	eurRate: string = '';
-	baseCurr: string = 'UAH';
+	rates: StringNumberPair = {};
+	usdRate = '';
+	eurRate = '';
+	baseCurr = '';
 
 	constructor(private rateService: RateServiceService) { }
 
 	ngOnInit(): void {
-		this.rateService.getRates().subscribe(data => {
-			this.baseCurr = data.base;
-			this.rates = data.rates;
-			for (const k in data.rates) {
-				if (k === 'USD') {
-					this.usdRate = ((1 / data.rates[k]) / 1).toFixed(2);
-				}
-				if (k === 'EUR') {
-					this.eurRate = ((1 / data.rates[k]) / 1).toFixed(2);
-				}
-			}
+		this.rateService.getRates().subscribe(({ base, rates }) => {
+			this.baseCurr = base;
+			this.rates = rates;
+			const { USD, EUR } = rates;
+			this.usdRate = this.calculateRate(USD);
+			this.eurRate = this.calculateRate(EUR);
 		})
+	}
+
+	calculateRate(rate: number): string {
+		return ((1 / rate) / 1).toFixed(2);
 	}
 }

@@ -10,17 +10,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ConverterComponent implements OnInit {
 	rates: StringNumberPair = {};
-	selectedFrom: string = 'USD';
-	selectedTo: string = 'UAH';
-	inputValue: number = 100;
-	fromRate: number = 0;
-	toRate: number = 0;
+	selectedFrom = 'USD';
+	selectedTo = 'UAH';
+	inputValue = 100;
+	fromRate = 0;
+	toRate = 0;
 
 	constructor(private rateService: RateServiceService) { }
 
 	ngOnInit(): void {
-		this.rateService.getRates().subscribe(data => {
-			this.rates = data.rates;
+		this.rateService.getRates().subscribe(({ rates }) => {
+			this.rates = rates;
 			this.calculateExchangeRate();
 		})
 	}
@@ -33,14 +33,22 @@ export class ConverterComponent implements OnInit {
 	});
 
 	onToAmountChange(): void {
-		this.fromRate = this.rates[this.convertForm.controls['toSelect'].value];
-		this.toRate = this.rates[this.convertForm.controls['fromSelect'].value];
-		this.convertForm.controls['fromAmount'].setValue(((this.convertForm.controls['toAmount'].value * this.toRate) / this.fromRate).toFixed(2));
+		this.fromRate = this.getFormValue('toSelect');
+		this.toRate = this.getFormValue('fromSelect');
+		this.convertForm.controls['fromAmount'].setValue(this.calcValue('toAmount', this.toRate, this.fromRate));
 	}
 
 	calculateExchangeRate(): void {
-		this.fromRate = this.rates[this.convertForm.controls['fromSelect'].value];
-		this.toRate = this.rates[this.convertForm.controls['toSelect'].value];
-		this.convertForm.controls['toAmount'].setValue(((this.convertForm.controls['fromAmount'].value * this.toRate) / this.fromRate).toFixed(2));
+		this.fromRate = this.getFormValue('fromSelect');
+		this.toRate = this.getFormValue('toSelect');
+		this.convertForm.controls['toAmount'].setValue(this.calcValue('fromAmount', this.toRate, this.fromRate));
+	}
+
+	getFormValue(control: string): number {
+		return this.rates[this.convertForm.controls[control].value]
+	}
+
+	calcValue(control: string, toRate: number, fromRate: number): string {
+		return ((this.convertForm.controls[control].value * toRate) / fromRate).toFixed(2);
 	}
 }
